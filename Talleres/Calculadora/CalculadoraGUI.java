@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class JuanFelipeRodriguezOperacionesGUI extends JFrame implements ActionListener {
+public class CalculadoraGUI extends JFrame implements ActionListener {
 
     private JTextField pantalla;
     private JComboBox<Integer> comboBaseEntrada;
@@ -15,7 +15,7 @@ public class JuanFelipeRodriguezOperacionesGUI extends JFrame implements ActionL
     private String num1Str = "";
     private boolean nuevaOperacion = true;
 
-    public JuanFelipeRodriguezOperacionesGUI() {
+    public CalculadoraGUI() {
         setTitle("Calculadora de Bases (2-10)");
         setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -143,26 +143,23 @@ public class JuanFelipeRodriguezOperacionesGUI extends JFrame implements ActionL
             int baseSalida = (int) comboBaseSalida.getSelectedItem();
 
             try {
-                int num1Dec = convertirABase10(num1Str, baseEntrada);
-                int num2Dec = convertirABase10(num2Str, baseEntrada);
-                int resultadoInt = 0;
+                // Create Numero instances from the string representations (as digits in the chosen input base)
+                Numero n1 = new Numero(Integer.parseInt(num1Str), baseEntrada);
+                Numero n2 = new Numero(Integer.parseInt(num2Str), baseEntrada);
 
+                Operacion op;
                 switch (operador) {
-                    case "+": resultadoInt = num1Dec + num2Dec; break;
-                    case "-": resultadoInt = num1Dec - num2Dec; break;
-                    case "*": resultadoInt = num1Dec * num2Dec; break;
-                    case "/": 
-                        if (num2Dec == 0) {
-                            pantalla.setText("Error");
-                            nuevaOperacion = true;
-                            return;
-                        }
-                        resultadoInt = num1Dec / num2Dec; 
-                        break;
+                    case "+": op = new Suma(n1, n2); break;
+                    case "-": op = new Resta(n1, n2); break;
+                    case "*": op = new Multiplicacion(n1, n2); break;
+                    case "/": op = new Division(n1, n2); break;
+                    default: return;
                 }
 
-                String resultadoFinal = convertirBase10ABase(resultadoInt, baseSalida);
-                pantalla.setText(resultadoFinal);
+                Numero res = op.operar();
+                // Convert result to desired output base
+                Numero resFinal = Numero.deBase10(res.aBase10(), baseSalida);
+                pantalla.setText(String.valueOf(resFinal.getValor()));
                 
                 num1Str = "";
                 operador = "";
@@ -175,41 +172,9 @@ public class JuanFelipeRodriguezOperacionesGUI extends JFrame implements ActionL
         }
     }
 
-    
-    public static int convertirABase10(String numero, int base) {
-        boolean esNegativo = numero.startsWith("-");
-        if (esNegativo) numero = numero.substring(1);
-        
-        int resultado = 0;
-        int longitud = numero.length();
-        for (int i = 0; i < longitud; i++) {
-            int digito = Character.getNumericValue(numero.charAt(i));
-            resultado += digito * Math.pow(base, longitud - 1 - i);
-        }
-        return esNegativo ? -resultado : resultado;
-    }
-
-    public static String convertirBase10ABase(int numero, int base) {
-        if (numero == 0) return "0";
-        
-        StringBuilder resultado = new StringBuilder();
-        boolean esNegativo = numero < 0;
-        int n = Math.abs(numero); 
-        while (n > 0) {
-            resultado.insert(0, n % base);
-            n /= base;
-        }
-        
-        if (esNegativo) {
-            resultado.insert(0, "-");
-        }
-        
-        return resultado.toString();
-    }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            CalculadorGUI calc = new CalculadorGUI();
+            CalculadoraGUI calc = new CalculadoraGUI();
             calc.setVisible(true);
         });
     }

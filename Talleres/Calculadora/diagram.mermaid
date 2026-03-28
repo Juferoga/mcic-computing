@@ -1,0 +1,50 @@
+classDiagram
+    class Numero {
+        - int valor
+        - int base
+        + Numero(int valor, int base)
+        + Numero(int valor)
+        + Numero()
+        + int aBase10()
+        + static Numero deBase10(int valorBase10, int base)
+        + String toString()
+    }
+
+    class Operacion {
+        <<abstract>>
+        - Numero numero1
+        - Numero numero2
+        + Operacion(Numero numero1, Numero numero2)
+        + abstract Numero operar()
+    }
+
+    class Suma {
+        + Numero operar()
+    }
+    class Resta {
+        + Numero operar()
+    }
+    class Multiplicacion {
+        + Numero operar()
+    }
+    class Division {
+        + Numero operar()
+    }
+
+    class CalculadoraGUI {
+        - JTextField pantalla
+        - JComboBox<Integer> comboBaseEntrada
+        - JComboBox<Integer> comboBaseSalida
+        - JButton[] botonesNumeros
+        + CalculadoraGUI()
+        + void actionPerformed(ActionEvent e)
+        + static void main(String[] args)
+    }
+
+    Numero *.. Operacion : "usado por"
+    Operacion <|-- Suma
+    Operacion <|-- Resta
+    Operacion <|-- Multiplicacion
+    Operacion <|-- Division
+    CalculadoraGUI ..> Operacion : "invoca"
+    CalculadoraGUI ..> Numero : "crea/usa"
