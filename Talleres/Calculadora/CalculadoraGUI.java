@@ -143,7 +143,6 @@ public class CalculadoraGUI extends JFrame implements ActionListener {
             int baseSalida = (int) comboBaseSalida.getSelectedItem();
 
             try {
-                // Create Numero instances from the string representations (as digits in the chosen input base)
                 Numero n1 = new Numero(Integer.parseInt(num1Str), baseEntrada);
                 Numero n2 = new Numero(Integer.parseInt(num2Str), baseEntrada);
 
@@ -157,7 +156,6 @@ public class CalculadoraGUI extends JFrame implements ActionListener {
                 }
 
                 Numero res = op.operar();
-                // Convert result to desired output base
                 Numero resFinal = Numero.deBase10(res.aBase10(), baseSalida);
                 pantalla.setText(String.valueOf(resFinal.getValor()));
                 
