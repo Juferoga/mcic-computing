@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.academico.controller.PrerrequisitoController"
+      spacing="10" style="-fx-padding: 10;">
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Asignatura:"/>
+        <ComboBox fx:id="comboAsignatura" prefWidth="300"/>
+    </HBox>
+    <Label text="Prerrequisitos:"/>
+    <ListView fx:id="listView" VBox.vgrow="ALWAYS"/>
+    <HBox spacing="10">
+        <Button text="Agregar Prerrequisito" onAction="#agregarPrerrequisito"/>
+        <Button text="Eliminar Prerrequisito" onAction="#eliminarPrerrequisito"/>
+    </HBox>
+</VBox>

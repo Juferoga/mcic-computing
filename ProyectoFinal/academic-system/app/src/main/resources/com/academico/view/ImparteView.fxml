@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.academico.controller.ImparteController"
+      spacing="10" style="-fx-padding: 10;">
+    <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colProfesor" text="Profesor" prefWidth="200"/>
+            <TableColumn fx:id="colAsignatura" text="Asignatura" prefWidth="200"/>
+            <TableColumn fx:id="colGrupo" text="Grupo" prefWidth="80"/>
+            <TableColumn fx:id="colHorario" text="Horario" prefWidth="200"/>
+        </columns>
+    </TableView>
+    <HBox spacing="10">
+        <Button text="Agregar" onAction="#agregar"/>
+        <Button text="Eliminar" onAction="#eliminar"/>
+    </HBox>
+</VBox>
