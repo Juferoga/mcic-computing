@@ -4,6 +4,7 @@ import com.academico.dao.AsignaturaDAO;
 import com.academico.dao.EstudianteDAO;
 import com.academico.dao.ImparteDAO;
 import com.academico.dao.InscripcionDAO;
+import com.academico.dao.OperationResult;
 import com.academico.model.Asignatura;
 import com.academico.model.Estudiante;
 import com.academico.model.Imparte;
@@ -123,9 +124,12 @@ public class NotasController {
                     double n1 = Double.parseDouble(tfN1.getText().trim());
                     double n2 = Double.parseDouble(tfN2.getText().trim());
                     double n3 = Double.parseDouble(tfN3.getText().trim());
-                    inscripcionDAO.actualizarNotas(
+                    OperationResult result = inscripcionDAO.actualizarNotas(
                             ins.getCodEstudiante(), ins.getCodAsignatura(),
                             ins.getIdProfesor(), ins.getGrupo(), n1, n2, n3);
+                    if (!result.isSuccess()) {
+                        mostrarAlerta(result.getMessage());
+                    }
                 } catch (NumberFormatException e) {
                     mostrarAlerta("Ingrese valores numéricos válidos.");
                 }

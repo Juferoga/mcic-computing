@@ -9,22 +9,22 @@ import java.util.List;
 
 public class InscripcionDAO {
 
-    public boolean inscribir(String codE, String codA, String idP, int grupo) {
-        String sql = "{CALL sp_inscribir_estudiante(?, ?, ?, ?)}";
+    public OperationResult inscribir(String codE, String codA, String idP, int grupo) {
+        String sql = "CALL sp_inscribir_estudiante(?, ?, ?, ?)";
         try (Connection con = ConexionDB.getConexion();
-             CallableStatement cs = con.prepareCall(sql)) {
-            cs.setString(1, codE);
-            cs.setString(2, codA);
-            cs.setString(3, idP);
-            cs.setInt(4, grupo);
-            return cs.executeUpdate() > 0;
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, codE);
+            ps.setString(2, codA);
+            ps.setString(3, idP);
+            ps.setInt(4, grupo);
+            ps.execute();
+            return OperationResult.ok("Inscripción realizada con éxito");
         } catch (SQLException e) {
-            System.err.println("Error al inscribir estudiante: " + e.getMessage());
-            return false;
+            return OperationResult.error(e.getMessage());
         }
     }
 
-    public boolean actualizarNotas(String codE, String codA, String idP, int grupo, double n1, double n2, double n3) {
+    public OperationResult actualizarNotas(String codE, String codA, String idP, int grupo, double n1, double n2, double n3) {
         String sql = "UPDATE Inscribe SET n1 = ?, n2 = ?, n3 = ? WHERE cod_e = ? AND cod_a = ? AND id_p = ? AND grupo = ?";
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -35,14 +35,16 @@ public class InscripcionDAO {
             ps.setString(5, codA);
             ps.setString(6, idP);
             ps.setInt(7, grupo);
-            return ps.executeUpdate() > 0;
+            int rows = ps.executeUpdate();
+            return rows > 0
+                    ? OperationResult.ok("Notas actualizadas con éxito")
+                    : OperationResult.error("No se encontró la inscripción para actualizar");
         } catch (SQLException e) {
-            System.err.println("Error al actualizar notas: " + e.getMessage());
-            return false;
+            return OperationResult.error(e.getMessage());
         }
     }
 
-    public boolean eliminar(String codE, String codA, String idP, int grupo) {
+    public OperationResult eliminar(String codE, String codA, String idP, int grupo) {
         String sql = "DELETE FROM Inscribe WHERE cod_e = ? AND cod_a = ? AND id_p = ? AND grupo = ?";
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -50,16 +52,18 @@ public class InscripcionDAO {
             ps.setString(2, codA);
             ps.setString(3, idP);
             ps.setInt(4, grupo);
-            return ps.executeUpdate() > 0;
+            int rows = ps.executeUpdate();
+            return rows > 0
+                    ? OperationResult.ok("Inscripción eliminada con éxito")
+                    : OperationResult.error("No se encontró la inscripción para eliminar");
         } catch (SQLException e) {
-            System.err.println("Error al eliminar inscripcion: " + e.getMessage());
-            return false;
+            return OperationResult.error(e.getMessage());
         }
     }
 
     public List<Inscripcion> listarPorGrupo(String codA, int grupo) {
         List<Inscripcion> lista = new ArrayList<>();
-        String sql = "SELECT cod_e, cod_a, id_p, grupo, n1, n2, n3, def FROM Inscribe WHERE cod_a = ? AND grupo = ? ORDER BY cod_e";
+        String sql = "SELECT cod_e, cod_a, id_p, grupo, n1, n2, n3 FROM Inscribe WHERE cod_a = ? AND grupo = ? ORDER BY cod_e";
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, codA);
@@ -74,7 +78,6 @@ public class InscripcionDAO {
                 i.setN1(rs.getDouble("n1"));
                 i.setN2(rs.getDouble("n2"));
                 i.setN3(rs.getDouble("n3"));
-                i.setDefinitiva(rs.getDouble("def"));
                 lista.add(i);
             }
         } catch (SQLException e) {
@@ -85,7 +88,7 @@ public class InscripcionDAO {
 
     public List<Inscripcion> listarTodos() {
         List<Inscripcion> lista = new ArrayList<>();
-        String sql = "SELECT cod_e, cod_a, id_p, grupo, n1, n2, n3, def FROM Inscribe ORDER BY cod_a, grupo, cod_e";
+        String sql = "SELECT cod_e, cod_a, id_p, grupo, n1, n2, n3 FROM Inscribe ORDER BY cod_a, grupo, cod_e";
         try (Connection con = ConexionDB.getConexion();
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
@@ -98,7 +101,6 @@ public class InscripcionDAO {
                 i.setN1(rs.getDouble("n1"));
                 i.setN2(rs.getDouble("n2"));
                 i.setN3(rs.getDouble("n3"));
-                i.setDefinitiva(rs.getDouble("def"));
                 lista.add(i);
             }
         } catch (SQLException e) {

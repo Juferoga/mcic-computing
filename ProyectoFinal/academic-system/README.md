@@ -15,13 +15,20 @@ Sistema de gestión académica desarrollado en Java con conexión a PostgreSQL. 
 
 ```
 academic-system/
-├── app/                      # Código fuente Java
-│   └── (estructura Maven)
-├── db_academico/             # Configuración de base de datos
-│   ├── docker-compose.yml    # Contenedor PostgreSQL
-│   └── init-scripts/         # Scripts de inicialización SQL
-├── docs/                     # Documentación del proyecto
-└── README.md                 # Este archivo
+├── app/                          # Código fuente Java
+│   └── src/main/java/com/academico/
+│       ├── config/               # Conexión a BD (Singleton)
+│       ├── controller/           # Controladores JavaFX
+│       ├── dao/                  # Data Access Objects
+│       │   ├── OperationResult.java  # Encapsula éxito/error de operaciones
+│       │   └── *DAO.java         # DAOs por entidad
+│       ├── model/                # Entidades del dominio
+│       └── Main.java             # Punto de entrada
+├── db_academico/                 # Configuración de base de datos
+│   ├── docker-compose.yml        # Contenedor PostgreSQL
+│   └── init-scripts/             # Scripts SQL (DDL, DML, DCL, triggers, SP)
+├── docs/                         # Documentación del proyecto
+└── README.md                     # Este archivo
 ```
 
 ## Arquitectura
@@ -29,8 +36,9 @@ academic-system/
 El proyecto implementa los siguientes patrones de diseño:
 
 - **MVC (Model-View-Controller)**: Separación de responsabilidades en la aplicación
-- **DAO (Data Access Object)**: Abstracción del acceso a datos
+- **DAO (Data Access Object)**: Abstracción del acceso a datos con propagación de errores via `OperationResult`
 - **Singleton**: Gestión de conexiones a la base de datos
+- **Database-driven business logic**: Toda la lógica de negocio (validaciones, cálculos) vive en PostgreSQL. La aplicación solo transporta mensajes de error/éxito de la base de datos al usuario.
 
 ### Tecnología Backend
 
@@ -60,14 +68,16 @@ El proyecto implementa los siguientes patrones de diseño:
 | `Incluye` | Relación carrera-asignatura (pensum) |
 | `Requiere` | Prerrequisitos entre asignaturas |
 
-### Procedimientos Almacenados y Triggers
+### Lógica de Negocio en Base de Datos
+
+Toda la lógica de negocio reside en la base de datos. La aplicación Java actúa como un pipe transparente: ejecuta las operaciones y muestra al usuario los mensajes de éxito o error que PostgreSQL retorna, sin interpretar ni filtrar.
 
 - **Trigger `trg_calculo_notas`**: Calcula automáticamente la nota definitiva con la fórmula:
   ```
   Definitiva = (n1 × 0.35) + (n2 × 0.35) + (n3 × 0.30)
   ```
 
-- **Procedimiento `sp_inscribir_estudiante`**: Valida prerrequisitos antes de realizar una inscripción
+- **Procedimiento `sp_inscribir_estudiante`**: Valida prerrequisitos antes de realizar una inscripción. Si el estudiante no aprobó un prerrequisito, lanza `RAISE EXCEPTION` con un mensaje descriptivo que llega directamente al usuario.
 
 ## Seguridad (RBAC)
 
@@ -89,31 +99,66 @@ El sistema implementa Control de Acceso Basado en Roles a nivel de PostgreSQL:
 
 ## Configuración e Instalación
 
-### 1. Levantar la Base de Datos
+### Opción A: Script automático (recomendado)
+
+Desde la raíz del proyecto:
+
+```bash
+./run.sh
+```
+
+El script verifica dependencias, levanta la base de datos y ejecuta la aplicación automáticamente.
+
+### Opción B: Paso a paso
+
+#### 1. Levantar la Base de Datos
 
 ```bash
 cd db_academico
-docker-compose up -d
+docker compose up -d
 ```
+
+Esperar unos segundos a que PostgreSQL inicialice las tablas y datos de prueba.
+
+Para verificar que la base de datos está lista:
+
+```bash
+docker logs postgres_academico
+```
+
+Debe mostrar al final: `Base de datos académica inicializada correctamente`.
 
 La base de datos estará disponible en:
 - **Host**: `localhost`
 - **Puerto**: `5432`
 - **Base de datos**: `db_sistema_academico`
 - **Usuario**: `app_admin`
+- **Contraseña**: `Admin_Secret2026*`
 
-### 2. Compilar el Proyecto Java
+#### 2. Compilar el Proyecto Java
 
 ```bash
 cd app
-mvn clean package
+mvn clean compile
 ```
 
-### 3. Ejecutar la Aplicación
+#### 3. Ejecutar la Aplicación
 
 ```bash
 mvn javafx:run
 ```
+
+### Troubleshooting
+
+Si la base de datos no inicializa correctamente (tablas vacías o errores de conexión), eliminar el volumen y recrear:
+
+```bash
+cd db_academico
+docker compose down -v
+docker compose up -d
+```
+
+PostgreSQL solo ejecuta los scripts de `init-scripts/` la primera vez que crea el volumen de datos. Si el volumen ya existe con una inicialización fallida, es necesario eliminarlo con `-v` para forzar la re-ejecución.
 
 ## Datos de Prueba (Mock Data)
 
@@ -143,9 +188,10 @@ El script de inicialización incluye datos precargados para demostración:
 - ✅ Gestión de asignaturas
 - ✅ Gestión de profesores
 - ✅ Asignación de carga académica (Imparte)
-- ✅ Inscripción de estudiantes a asignaturas
-- ✅ Registro y cálculo automático de calificaciones
-- ✅ Validación de prerrequisitos
+- ✅ Inscripción de estudiantes a asignaturas (con validación de prerrequisitos vía stored procedure)
+- ✅ Registro y cálculo automático de calificaciones (trigger en BD)
+- ✅ Validación de prerrequisitos (lógica en BD, no en Java)
+- ✅ Propagación de errores de BD al usuario (via `OperationResult`)
 - ✅ Control de acceso por roles
 
 ## Entrega

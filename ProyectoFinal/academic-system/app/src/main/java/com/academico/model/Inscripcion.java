@@ -9,7 +9,6 @@ public class Inscripcion {
     private double n1;
     private double n2;
     private double n3;
-    private double definitiva;
 
     public Inscripcion() {}
 
@@ -21,7 +20,6 @@ public class Inscripcion {
         this.n1 = 0.0;
         this.n2 = 0.0;
         this.n3 = 0.0;
-        this.definitiva = 0.0;
     }
 
     public String getCodEstudiante() { return codEstudiante; }
@@ -45,6 +43,8 @@ public class Inscripcion {
     public double getN3() { return n3; }
     public void setN3(double n3) { this.n3 = n3; }
 
-    public double getDefinitiva() { return definitiva; }
-    public void setDefinitiva(double definitiva) { this.definitiva = definitiva; }
+    // Todo - cambiar esto a un script en bd 
+    public double getDefinitiva() {
+        return (n1 * 0.35) + (n2 * 0.35) + (n3 * 0.30);
+    }
 }

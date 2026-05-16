@@ -88,8 +88,28 @@ public class ImparteController {
 
         TextField tfGrupo = new TextField();
         tfGrupo.setPromptText("Grupo");
-        TextField tfHorario = new TextField();
-        tfHorario.setPromptText("Horario");
+
+        ComboBox<String> comboDia = new ComboBox<>(FXCollections.observableArrayList(
+                "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"));
+        comboDia.setPromptText("Día");
+        comboDia.setPrefWidth(300);
+
+        ComboBox<String> comboHoraInicio = new ComboBox<>(FXCollections.observableArrayList(
+                "6:00am", "7:00am", "8:00am", "9:00am", "10:00am", "11:00am",
+                "12:00pm", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm",
+                "6:00pm", "7:00pm", "8:00pm"));
+        comboHoraInicio.setPromptText("Hora inicio");
+        comboHoraInicio.setPrefWidth(140);
+
+        ComboBox<String> comboHoraFin = new ComboBox<>(FXCollections.observableArrayList(
+                "7:00am", "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm",
+                "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm", "6:00pm",
+                "7:00pm", "8:00pm", "9:00pm"));
+        comboHoraFin.setPromptText("Hora fin");
+        comboHoraFin.setPrefWidth(140);
+
+        javafx.scene.layout.HBox hboxHoras = new javafx.scene.layout.HBox(10, comboHoraInicio, new Label("-"), comboHoraFin);
+        hboxHoras.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -101,8 +121,10 @@ public class ImparteController {
         grid.add(comboAsignatura, 1, 1);
         grid.add(new Label("Grupo:"), 0, 2);
         grid.add(tfGrupo, 1, 2);
-        grid.add(new Label("Horario:"), 0, 3);
-        grid.add(tfHorario, 1, 3);
+        grid.add(new Label("Día:"), 0, 3);
+        grid.add(comboDia, 1, 3);
+        grid.add(new Label("Horario:"), 0, 4);
+        grid.add(hboxHoras, 1, 4);
 
         dialog.getDialogPane().setContent(grid);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
@@ -112,13 +134,21 @@ public class ImparteController {
                 Profesor p = comboProfesor.getValue();
                 Asignatura a = comboAsignatura.getValue();
                 String grupoStr = tfGrupo.getText().trim();
+                String dia = comboDia.getValue();
+                String horaInicio = comboHoraInicio.getValue();
+                String horaFin = comboHoraFin.getValue();
                 if (p == null || a == null || grupoStr.isEmpty()) {
                     mostrarAlerta("Profesor, Asignatura y Grupo son obligatorios.");
                     return null;
                 }
+                if (dia == null || horaInicio == null || horaFin == null) {
+                    mostrarAlerta("Debe seleccionar día, hora de inicio y hora de fin.");
+                    return null;
+                }
                 try {
                     int grupo = Integer.parseInt(grupoStr);
-                    dao.insertar(p.getId(), a.getCodA(), grupo, tfHorario.getText().trim());
+                    String horario = dia + " " + horaInicio + "-" + horaFin;
+                    dao.insertar(p.getId(), a.getCodA(), grupo, horario);
                 } catch (NumberFormatException e) {
                     mostrarAlerta("Grupo debe ser un número válido.");
                 }

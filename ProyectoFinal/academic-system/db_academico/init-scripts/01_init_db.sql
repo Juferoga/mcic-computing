@@ -84,20 +84,19 @@ CREATE TABLE IF NOT EXISTS Requiere (
 -- 2. LÓGICA DE NEGOCIO (TRIGGERS Y SP)
 -- ==========================================
 
--- Trigger para cálculo automático de nota definitiva
-CREATE OR REPLACE FUNCTION fn_calcular_definitiva()
+-- Función y Trigger para cálculo automático de nota definitiva
+CREATE OR REPLACE FUNCTION fn_calculo_notas()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.def := (NEW.n1 * 0.35) + (NEW.n2 * 0.35) + (NEW.n3 * 0.30);
+    NEW.def := ROUND((NEW.n1 * 0.35 + NEW.n2 * 0.35 + NEW.n3 * 0.30)::NUMERIC, 2);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trg_calculo_notas ON Inscribe;
-CREATE TRIGGER trg_calculo_notas
-BEFORE INSERT OR UPDATE OF n1, n2, n3 ON Inscribe
-FOR EACH ROW
-EXECUTE FUNCTION fn_calcular_definitiva();
+CREATE OR REPLACE TRIGGER trg_calculo_notas
+    BEFORE INSERT OR UPDATE OF n1, n2, n3 ON Inscribe
+    FOR EACH ROW
+    EXECUTE FUNCTION fn_calculo_notas();
 
 -- Procedimiento almacenado para inscripción con validación de prerrequisitos
 CREATE OR REPLACE PROCEDURE sp_inscribir_estudiante(

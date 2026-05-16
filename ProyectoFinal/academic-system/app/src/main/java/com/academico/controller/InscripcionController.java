@@ -4,6 +4,7 @@ import com.academico.dao.AsignaturaDAO;
 import com.academico.dao.EstudianteDAO;
 import com.academico.dao.ImparteDAO;
 import com.academico.dao.InscripcionDAO;
+import com.academico.dao.OperationResult;
 import com.academico.dao.ProfesorDAO;
 import com.academico.model.Asignatura;
 import com.academico.model.Estudiante;
@@ -126,7 +127,11 @@ public class InscripcionController {
                     mostrarAlerta("Todos los campos son obligatorios.");
                     return null;
                 }
-                dao.inscribir(e.getCodE(), a.getCodA(), i.getIdProfesor(), i.getGrupo());
+                OperationResult result = dao.inscribir(e.getCodE(), a.getCodA(), i.getIdProfesor(), i.getGrupo());
+                if (!result.isSuccess()) {
+                    mostrarAlerta(result.getMessage());
+                    return null;
+                }
             }
             return btn;
         });
@@ -141,8 +146,11 @@ public class InscripcionController {
         if (i != null) {
             if (new Alert(Alert.AlertType.CONFIRMATION, "¿Eliminar inscripción?")
                     .showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-                dao.eliminar(i.getCodEstudiante(), i.getCodAsignatura(),
+                OperationResult result = dao.eliminar(i.getCodEstudiante(), i.getCodAsignatura(),
                         i.getIdProfesor(), i.getGrupo());
+                if (!result.isSuccess()) {
+                    mostrarAlerta(result.getMessage());
+                }
                 cargarDatos();
             }
         } else {
