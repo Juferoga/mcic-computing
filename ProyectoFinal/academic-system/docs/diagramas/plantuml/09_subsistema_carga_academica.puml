@@ -1,0 +1,43 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+  ArrowColor #1565C0
+}
+
+title Subsistema de Carga Academica - Casos de Uso Detallados
+
+left to right direction
+
+actor "Administrador" as Admin #FFF8E1
+
+rectangle "Subsistema de Carga Academica" {
+    
+    usecase "CU-05.1 Asignar Asignatura a Profesor" as CU05_1
+    usecase "CU-05.2 Consultar Carga Academica" as CU05_2
+    usecase "CU-05.3 Modificar Asignacion" as CU05_3
+    usecase "CU-05.4 Eliminar Asignacion" as CU05_4
+    
+    usecase "Validar Profesor Existe" as VAL01
+    usecase "Validar Asignatura Existe" as VAL02
+    usecase "Validar Grupo Unico" as VAL03
+    usecase "Confirmar Eliminacion" as VAL04
+    
+    CU05_1 .> VAL01 : <<include>>
+    CU05_1 .> VAL02 : <<include>>
+    CU05_1 .> VAL03 : <<include>>
+    CU05_3 .> VAL03 : <<include>>
+    CU05_4 .> VAL04 : <<include>>
+    
+}
+
+Admin --> CU05_1
+Admin --> CU05_2
+Admin --> CU05_3
+Admin --> CU05_4
+
+@enduml

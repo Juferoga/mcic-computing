@@ -1,0 +1,41 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+  ArrowColor #1565C0
+}
+
+title Subsistema de Gestion de Carreras - Casos de Uso Detallados
+
+left to right direction
+
+actor "Administrador" as Admin #FFF8E1
+
+rectangle "Subsistema de Carreras" {
+    
+    usecase "CU-01.1 Crear Carrera" as CU01_1
+    usecase "CU-01.2 Consultar Carreras" as CU01_2
+    usecase "CU-01.3 Modificar Carrera" as CU01_3
+    usecase "CU-01.4 Eliminar Carrera" as CU01_4
+    
+    usecase "Validar Codigo Unico" as VAL01
+    usecase "Validar Datos Requeridos" as VAL02
+    usecase "Confirmar Eliminacion" as VAL03
+    
+    CU01_1 .> VAL01 : <<include>>
+    CU01_1 .> VAL02 : <<include>>
+    CU01_3 .> VAL02 : <<include>>
+    CU01_4 .> VAL03 : <<include>>
+    
+}
+
+Admin --> CU01_1
+Admin --> CU01_2
+Admin --> CU01_3
+Admin --> CU01_4
+
+@enduml

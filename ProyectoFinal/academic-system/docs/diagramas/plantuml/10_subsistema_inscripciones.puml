@@ -1,0 +1,42 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+  ArrowColor #1565C0
+}
+
+title Subsistema de Inscripciones - Casos de Uso Detallados
+
+left to right direction
+
+actor "Administrador" as Admin #FFF8E1
+
+rectangle "Subsistema de Inscripciones" {
+    
+    usecase "CU-06.1 Inscribir Estudiante" as CU06_1
+    usecase "CU-06.2 Consultar Inscripciones" as CU06_2
+    usecase "CU-06.3 Cancelar Inscripcion" as CU06_3
+    
+    usecase "Validar Estudiante Existe" as VAL01
+    usecase "Validar Asignatura Existe" as VAL02
+    usecase "Validar Prerrequisitos" as VAL03
+    usecase "Validar Cupo Disponible" as VAL04
+    usecase "Confirmar Cancelacion" as VAL05
+    
+    CU06_1 .> VAL01 : <<include>>
+    CU06_1 .> VAL02 : <<include>>
+    CU06_1 .> VAL03 : <<include>>
+    CU06_1 .> VAL04 : <<include>>
+    CU06_3 .> VAL05 : <<include>>
+    
+}
+
+Admin --> CU06_1
+Admin --> CU06_2
+Admin --> CU06_3
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+  ArrowColor #1565C0
+}
+
+title Subsistema de Registro de Notas - Casos de Uso Detallados
+
+left to right direction
+
+actor "Administrador" as Admin #FFF8E1
+actor "Profesor" as Prof #E8F5E9
+
+rectangle "Subsistema de Registro de Notas" {
+    
+    usecase "CU-07.1 Registrar Nota N1" as CU07_1
+    usecase "CU-07.2 Registrar Nota N2" as CU07_2
+    usecase "CU-07.3 Registrar Nota N3" as CU07_3
+    usecase "CU-07.4 Consultar Calificaciones" as CU07_4
+    
+    usecase "Validar Inscripcion Activa" as VAL01
+    usecase "Validar Rango de Nota" as VAL02
+    usecase "Calcular Definitiva" as VAL03
+    usecase "Generar Reporte de Notas" as VAL04
+    
+    CU07_1 .> VAL01 : <<include>>
+    CU07_1 .> VAL02 : <<include>>
+    CU07_2 .> VAL01 : <<include>>
+    CU07_2 .> VAL02 : <<include>>
+    CU07_3 .> VAL01 : <<include>>
+    CU07_3 .> VAL02 : <<include>>
+    CU07_3 .> VAL03 : <<include>>
+    CU07_4 .> VAL04 : <<extend>>
+    
+}
+
+Admin --> CU07_1
+Admin --> CU07_2
+Admin --> CU07_3
+Admin --> CU07_4
+
+Prof --> CU07_1
+Prof --> CU07_2
+Prof --> CU07_3
+Prof --> CU07_4
+
+@enduml

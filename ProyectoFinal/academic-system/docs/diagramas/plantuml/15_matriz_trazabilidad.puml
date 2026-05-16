@@ -1,0 +1,52 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+
+
+title Matriz de Trazabilidad de Casos de Uso
+
+object "Matriz" as Matriz {
+  | Caso de Uso | Admin | Profesor | Estudiante |
+  | CU-01.1 Crear Carrera | ● | | |
+  | CU-01.2 Consultar Carreras | ● | | |
+  | CU-01.3 Modificar Carrera | ● | | |
+  | CU-01.4 Eliminar Carrera | ● | | |
+  | CU-02.1 Crear Estudiante | ● | | |
+  | CU-02.2 Consultar Estudiantes | ● | | |
+  | CU-02.3 Modificar Estudiante | ● | | |
+  | CU-02.4 Eliminar Estudiante | ● | | |
+  | CU-03.1 Crear Asignatura | ● | | |
+  | CU-03.2 Consultar Asignaturas | ● | | |
+  | CU-03.3 Modificar Asignatura | ● | | |
+  | CU-03.4 Eliminar Asignatura | ● | | |
+  | CU-04.1 Crear Profesor | ● | | |
+  | CU-04.2 Consultar Profesores | ● | | |
+  | CU-04.3 Modificar Profesor | ● | | |
+  | CU-04.4 Eliminar Profesor | ● | | |
+  | CU-05.1 Asignar Asignatura | ● | | |
+  | CU-05.2 Consultar Carga | ● | | |
+  | CU-05.3 Modificar Asignacion | ● | | |
+  | CU-05.4 Eliminar Asignacion | ● | | |
+  | CU-06.1 Inscribir Estudiante | ● | | |
+  | CU-06.2 Consultar Inscripciones | ● | | |
+  | CU-06.3 Cancelar Inscripcion | ● | | |
+  | CU-07.1 Registrar Nota N1 | ● | ● | |
+  | CU-07.2 Registrar Nota N2 | ● | ● | |
+  | CU-07.3 Registrar Nota N3 | ● | ● | |
+  | CU-07.4 Consultar Calificaciones | ● | ● | |
+  | CU-08.1 Agregar Prerrequisito | ● | | |
+  | CU-08.2 Consultar Prerrequisitos | ● | | |
+  | CU-08.3 Eliminar Prerrequisito | ● | | |
+  | CU-09.1 Ver Carreras | ● | ● | ● |
+  | CU-09.2 Ver Pensum | ● | ● | ● |
+  | CU-09.3 Ver Asignaturas | ● | ● | ● |
+  | CU-09.4 Ver Notas | ● | ● | ● |
+  | CU-09.5 Ver Prerrequisitos | ● | ● | ● |
+  | CU-09.6 Ver Historial | ● | | ● |
+  | CU-10.1 Agregar a Pensum | ● | | |
+  | CU-10.2 Consultar Pensum | ● | | |
+  | CU-10.3 Eliminar de Pensum | ● | | |
+}
+
+@enduml

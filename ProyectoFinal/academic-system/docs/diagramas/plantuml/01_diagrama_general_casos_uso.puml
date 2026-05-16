@@ -1,0 +1,156 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam usecase {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+  ArrowColor #1565C0
+  ActorBorderColor #333333
+  ActorBackgroundColor #FFF8E1
+}
+
+title Diagrama General de Casos de Uso - Sistema de Gestion Academica
+
+left to right direction
+
+actor "Administrador" as Admin #FFF8E1
+actor "Profesor" as Prof #E8F5E9
+actor "Estudiante" as Est #FFEBEE
+
+rectangle "Sistema de Gestion Academica" {
+    
+    package "Gestion de Carreras" {
+        usecase "CU-01.1 Crear Carrera" as CU01_1
+        usecase "CU-01.2 Consultar Carreras" as CU01_2
+        usecase "CU-01.3 Modificar Carrera" as CU01_3
+        usecase "CU-01.4 Eliminar Carrera" as CU01_4
+    }
+    
+    package "Gestion de Estudiantes" {
+        usecase "CU-02.1 Crear Estudiante" as CU02_1
+        usecase "CU-02.2 Consultar Estudiantes" as CU02_2
+        usecase "CU-02.3 Modificar Estudiante" as CU02_3
+        usecase "CU-02.4 Eliminar Estudiante" as CU02_4
+    }
+    
+    package "Gestion de Asignaturas" {
+        usecase "CU-03.1 Crear Asignatura" as CU03_1
+        usecase "CU-03.2 Consultar Asignaturas" as CU03_2
+        usecase "CU-03.3 Modificar Asignatura" as CU03_3
+        usecase "CU-03.4 Eliminar Asignatura" as CU03_4
+    }
+    
+    package "Gestion de Profesores" {
+        usecase "CU-04.1 Crear Profesor" as CU04_1
+        usecase "CU-04.2 Consultar Profesores" as CU04_2
+        usecase "CU-04.3 Modificar Profesor" as CU04_3
+        usecase "CU-04.4 Eliminar Profesor" as CU04_4
+    }
+    
+    package "Carga Academica" {
+        usecase "CU-05.1 Asignar Asignatura a Profesor" as CU05_1
+        usecase "CU-05.2 Consultar Carga Academica" as CU05_2
+        usecase "CU-05.3 Modificar Asignacion" as CU05_3
+        usecase "CU-05.4 Eliminar Asignacion" as CU05_4
+    }
+    
+    package "Inscripciones" {
+        usecase "CU-06.1 Inscribir Estudiante" as CU06_1
+        usecase "CU-06.2 Consultar Inscripciones" as CU06_2
+        usecase "CU-06.3 Cancelar Inscripcion" as CU06_3
+    }
+    
+    package "Registro de Notas" {
+        usecase "CU-07.1 Registrar Nota N1" as CU07_1
+        usecase "CU-07.2 Registrar Nota N2" as CU07_2
+        usecase "CU-07.3 Registrar Nota N3" as CU07_3
+        usecase "CU-07.4 Consultar Calificaciones" as CU07_4
+    }
+    
+    package "Prerrequisitos" {
+        usecase "CU-08.1 Agregar Prerrequisito" as CU08_1
+        usecase "CU-08.2 Consultar Prerrequisitos" as CU08_2
+        usecase "CU-08.3 Eliminar Prerrequisito" as CU08_3
+    }
+    
+    package "Consultas y Reportes" {
+        usecase "CU-09.1 Ver Carreras Disponibles" as CU09_1
+        usecase "CU-09.2 Ver Pensum de Carrera" as CU09_2
+        usecase "CU-09.3 Ver Asignaturas Inscritas" as CU09_3
+        usecase "CU-09.4 Ver Notas y Definitiva" as CU09_4
+        usecase "CU-09.5 Ver Prerrequisitos de Asignatura" as CU09_5
+        usecase "CU-09.6 Ver Historial Academico" as CU09_6
+    }
+    
+    package "Gestion de Pensum" {
+        usecase "CU-10.1 Agregar Asignatura a Pensum" as CU10_1
+        usecase "CU-10.2 Consultar Pensum" as CU10_2
+        usecase "CU-10.3 Eliminar Asignatura de Pensum" as CU10_3
+    }
+    
+}
+
+' Relaciones de Administrador
+Admin --> CU01_1
+Admin --> CU01_2
+Admin --> CU01_3
+Admin --> CU01_4
+Admin --> CU02_1
+Admin --> CU02_2
+Admin --> CU02_3
+Admin --> CU02_4
+Admin --> CU03_1
+Admin --> CU03_2
+Admin --> CU03_3
+Admin --> CU03_4
+Admin --> CU04_1
+Admin --> CU04_2
+Admin --> CU04_3
+Admin --> CU04_4
+Admin --> CU05_1
+Admin --> CU05_2
+Admin --> CU05_3
+Admin --> CU05_4
+Admin --> CU06_1
+Admin --> CU06_2
+Admin --> CU06_3
+Admin --> CU07_1
+Admin --> CU07_2
+Admin --> CU07_3
+Admin --> CU07_4
+Admin --> CU08_1
+Admin --> CU08_2
+Admin --> CU08_3
+Admin --> CU09_1
+Admin --> CU09_2
+Admin --> CU09_3
+Admin --> CU09_4
+Admin --> CU09_5
+Admin --> CU09_6
+Admin --> CU10_1
+Admin --> CU10_2
+Admin --> CU10_3
+
+' Relaciones de Profesor
+Prof --> CU07_1
+Prof --> CU07_2
+Prof --> CU07_3
+Prof --> CU07_4
+Prof --> CU09_1
+Prof --> CU09_2
+Prof --> CU09_3
+Prof --> CU09_4
+Prof --> CU09_5
+
+' Relaciones de Estudiante
+Est --> CU09_1
+Est --> CU09_2
+Est --> CU09_3
+Est --> CU09_4
+Est --> CU09_5
+Est --> CU09_6
+
+@enduml

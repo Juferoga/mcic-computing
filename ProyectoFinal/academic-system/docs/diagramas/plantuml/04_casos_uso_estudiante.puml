@@ -1,0 +1,40 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #FFEBEE
+  BorderColor #C62828
+  ArrowColor #C62828
+  ActorBorderColor #333333
+  ActorBackgroundColor #FFEBEE
+}
+
+title Casos de Uso del Estudiante - Sistema de Gestion Academica
+
+left to right direction
+
+actor "Estudiante" as Est #FFEBEE
+
+rectangle "Sistema de Gestion Academica" {
+    
+    package "Consultas y Reportes" {
+        usecase "CU-09.1 Ver Carreras Disponibles" as CU09_1
+        usecase "CU-09.2 Ver Pensum de Carrera" as CU09_2
+        usecase "CU-09.3 Ver Asignaturas Inscritas" as CU09_3
+        usecase "CU-09.4 Ver Notas y Definitiva" as CU09_4
+        usecase "CU-09.5 Ver Prerrequisitos de Asignatura" as CU09_5
+        usecase "CU-09.6 Ver Historial Academico" as CU09_6
+    }
+    
+}
+
+Est --> CU09_1
+Est --> CU09_2
+Est --> CU09_3
+Est --> CU09_4
+Est --> CU09_5
+Est --> CU09_6
+
+@enduml
