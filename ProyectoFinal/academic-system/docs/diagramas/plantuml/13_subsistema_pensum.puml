@@ -1,0 +1,40 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+  ArrowColor #1565C0
+}
+
+title Subsistema de Gestion de Pensum - Casos de Uso Detallados
+
+left to right direction
+
+actor "Administrador" as Admin #FFF8E1
+
+rectangle "Subsistema de Pensum" {
+    
+    usecase "CU-10.1 Agregar Asignatura a Pensum" as CU10_1
+    usecase "CU-10.2 Consultar Pensum" as CU10_2
+    usecase "CU-10.3 Eliminar Asignatura de Pensum" as CU10_3
+    
+    usecase "Validar Carrera Existe" as VAL01
+    usecase "Validar Asignatura Existe" as VAL02
+    usecase "Validar Semestre Valido" as VAL03
+    usecase "Confirmar Eliminacion" as VAL04
+    
+    CU10_1 .> VAL01 : <<include>>
+    CU10_1 .> VAL02 : <<include>>
+    CU10_1 .> VAL03 : <<include>>
+    CU10_3 .> VAL04 : <<include>>
+    
+}
+
+Admin --> CU10_1
+Admin --> CU10_2
+Admin --> CU10_3
+
+@enduml

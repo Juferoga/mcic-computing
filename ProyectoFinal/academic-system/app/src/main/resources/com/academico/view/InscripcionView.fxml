@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.academico.controller.InscripcionController"
+      spacing="10" style="-fx-padding: 10;">
+    <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="180"/>
+            <TableColumn fx:id="colAsignatura" text="Asignatura" prefWidth="180"/>
+            <TableColumn fx:id="colProfesor" text="Profesor" prefWidth="150"/>
+            <TableColumn fx:id="colGrupo" text="Grupo" prefWidth="60"/>
+            <TableColumn fx:id="colN1" text="N1" prefWidth="60"/>
+            <TableColumn fx:id="colN2" text="N2" prefWidth="60"/>
+            <TableColumn fx:id="colN3" text="N3" prefWidth="60"/>
+            <TableColumn fx:id="colDefinitiva" text="Definitiva" prefWidth="80"/>
+        </columns>
+    </TableView>
+    <HBox spacing="10">
+        <Button text="Inscribir" onAction="#inscribir"/>
+        <Button text="Eliminar" onAction="#eliminar"/>
+    </HBox>
+</VBox>

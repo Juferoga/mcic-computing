@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.academico.controller.MainController">
+    <top>
+        <MenuBar>
+            <Menu text="Archivo">
+                <MenuItem text="Salir" onAction="#salir"/>
+            </Menu>
+            <Menu text="Administración">
+                <MenuItem text="Carreras" onAction="#mostrarCarreras"/>
+                <MenuItem text="Estudiantes" onAction="#mostrarEstudiantes"/>
+                <MenuItem text="Asignaturas" onAction="#mostrarAsignaturas"/>
+                <MenuItem text="Profesores" onAction="#mostrarProfesores"/>
+                <MenuItem text="Carga Académica" onAction="#mostrarImparte"/>
+                <MenuItem text="Prerrequisitos" onAction="#mostrarPrerrequisitos"/>
+                <MenuItem text="Pensum" onAction="#mostrarPensum"/>
+            </Menu>
+            <Menu text="Académico">
+                <MenuItem text="Inscripciones" onAction="#mostrarInscripciones"/>
+                <MenuItem text="Notas" onAction="#mostrarNotas"/>
+            </Menu>
+            <Menu text="Ayuda">
+                <MenuItem text="Acerca de" onAction="#acercaDe"/>
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
+        <StackPane fx:id="panelContenido"/>
+    </center>
+    <bottom>
+        <Label text="Conectado" style="-fx-padding: 5 10; -fx-background-color: #e0e0e0;"/>
+    </bottom>
+</BorderPane>

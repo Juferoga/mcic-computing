@@ -1,0 +1,59 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #FFF3E0
+  BorderColor #E65100
+  ArrowColor #E65100
+}
+
+title Subsistema de Consultas y Reportes - Casos de Uso Detallados
+
+left to right direction
+
+actor "Administrador" as Admin #FFF8E1
+actor "Profesor" as Prof #E8F5E9
+actor "Estudiante" as Est #FFEBEE
+
+rectangle "Subsistema de Consultas y Reportes" {
+    
+    usecase "CU-09.1 Ver Carreras Disponibles" as CU09_1
+    usecase "CU-09.2 Ver Pensum de Carrera" as CU09_2
+    usecase "CU-09.3 Ver Asignaturas Inscritas" as CU09_3
+    usecase "CU-09.4 Ver Notas y Definitiva" as CU09_4
+    usecase "CU-09.5 Ver Prerrequisitos de Asignatura" as CU09_5
+    usecase "CU-09.6 Ver Historial Academico" as CU09_6
+    
+    usecase "Filtrar por Periodo" as EXT01
+    usecase "Exportar a PDF" as EXT02
+    
+    CU09_4 .> EXT01 : <<extend>>
+    CU09_6 .> EXT01 : <<extend>>
+    CU09_4 .> EXT02 : <<extend>>
+    CU09_6 .> EXT02 : <<extend>>
+    
+}
+
+Admin --> CU09_1
+Admin --> CU09_2
+Admin --> CU09_3
+Admin --> CU09_4
+Admin --> CU09_5
+Admin --> CU09_6
+
+Prof --> CU09_1
+Prof --> CU09_2
+Prof --> CU09_3
+Prof --> CU09_4
+Prof --> CU09_5
+
+Est --> CU09_1
+Est --> CU09_2
+Est --> CU09_3
+Est --> CU09_4
+Est --> CU09_5
+Est --> CU09_6
+
+@enduml

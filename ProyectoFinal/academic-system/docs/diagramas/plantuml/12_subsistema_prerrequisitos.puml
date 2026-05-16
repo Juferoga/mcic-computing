@@ -1,0 +1,40 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+  ArrowColor #1565C0
+}
+
+title Subsistema de Prerrequisitos - Casos de Uso Detallados
+
+left to right direction
+
+actor "Administrador" as Admin #FFF8E1
+
+rectangle "Subsistema de Prerrequisitos" {
+    
+    usecase "CU-08.1 Agregar Prerrequisito" as CU08_1
+    usecase "CU-08.2 Consultar Prerrequisitos" as CU08_2
+    usecase "CU-08.3 Eliminar Prerrequisito" as CU08_3
+    
+    usecase "Validar Asignatura Principal" as VAL01
+    usecase "Validar Asignatura Prerrequisito" as VAL02
+    usecase "Evitar Ciclo de Dependencias" as VAL03
+    usecase "Confirmar Eliminacion" as VAL04
+    
+    CU08_1 .> VAL01 : <<include>>
+    CU08_1 .> VAL02 : <<include>>
+    CU08_1 .> VAL03 : <<include>>
+    CU08_3 .> VAL04 : <<include>>
+    
+}
+
+Admin --> CU08_1
+Admin --> CU08_2
+Admin --> CU08_3
+
+@enduml

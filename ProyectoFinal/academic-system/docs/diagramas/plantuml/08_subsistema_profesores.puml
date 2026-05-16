@@ -1,0 +1,41 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam handwritten false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+  ArrowColor #1565C0
+}
+
+title Subsistema de Gestion de Profesores - Casos de Uso Detallados
+
+left to right direction
+
+actor "Administrador" as Admin #FFF8E1
+
+rectangle "Subsistema de Profesores" {
+    
+    usecase "CU-04.1 Crear Profesor" as CU04_1
+    usecase "CU-04.2 Consultar Profesores" as CU04_2
+    usecase "CU-04.3 Modificar Profesor" as CU04_3
+    usecase "CU-04.4 Eliminar Profesor" as CU04_4
+    
+    usecase "Validar Codigo Profesor" as VAL01
+    usecase "Validar Datos Requeridos" as VAL02
+    usecase "Confirmar Eliminacion" as VAL03
+    
+    CU04_1 .> VAL01 : <<include>>
+    CU04_1 .> VAL02 : <<include>>
+    CU04_3 .> VAL02 : <<include>>
+    CU04_4 .> VAL03 : <<include>>
+    
+}
+
+Admin --> CU04_1
+Admin --> CU04_2
+Admin --> CU04_3
+Admin --> CU04_4
+
+@enduml

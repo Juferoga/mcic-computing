@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db_academico:
+    image: postgres:15-alpine
+    container_name: postgres_academico
+    restart: always
+    environment:
+      POSTGRES_USER: admin_super
+      POSTGRES_PASSWORD: SuperPassword2026*
+      POSTGRES_DB: db_sistema_academico
+    ports:
+      - "5432:5432"
+    volumes:
+      # Monta los scripts para que se ejecuten automáticamente al iniciar
+      - ./init-scripts:/docker-entrypoint-initdb.d/
+      # Volumen para persistencia de datos (si apagas el contenedor, no pierdes info)
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

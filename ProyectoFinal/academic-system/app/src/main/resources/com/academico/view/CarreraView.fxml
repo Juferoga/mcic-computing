@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.academico.controller.CarreraController"
+      spacing="10" style="-fx-padding: 10;">
+    <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="100"/>
+            <TableColumn fx:id="colNombre" text="Nombre" prefWidth="250"/>
+            <TableColumn fx:id="colRegistroCalif" text="Registro Calificación" prefWidth="200"/>
+        </columns>
+    </TableView>
+    <HBox spacing="10">
+        <Button text="Agregar" onAction="#agregar"/>
+        <Button text="Modificar" onAction="#modificar"/>
+        <Button text="Eliminar" onAction="#eliminar"/>
+    </HBox>
+</VBox>

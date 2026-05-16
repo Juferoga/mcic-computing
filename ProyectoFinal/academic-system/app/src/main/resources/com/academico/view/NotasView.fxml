@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.academico.controller.NotasController"
+      spacing="10" style="-fx-padding: 10;">
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Asignatura:"/>
+        <ComboBox fx:id="comboAsignatura" prefWidth="250"/>
+        <Label text="Grupo:"/>
+        <ComboBox fx:id="comboGrupo" prefWidth="80"/>
+        <Button text="Filtrar" onAction="#filtrar"/>
+    </HBox>
+    <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="200"/>
+            <TableColumn fx:id="colN1" text="N1" prefWidth="80"/>
+            <TableColumn fx:id="colN2" text="N2" prefWidth="80"/>
+            <TableColumn fx:id="colN3" text="N3" prefWidth="80"/>
+            <TableColumn fx:id="colDefinitiva" text="Definitiva" prefWidth="100"/>
+        </columns>
+    </TableView>
+</VBox>
